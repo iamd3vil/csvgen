@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/csv"
+	"io"
 	"log"
 	"os"
 	"testing"
@@ -12,9 +14,19 @@ func TestParseCsv(t *testing.T) {
 		log.Fatalln(err)
 	}
 
-	recs, err := ParsemcxBhavCSV(f)
-	if err != nil {
-		log.Fatalln(err)
+	rdr := csv.NewReader(f)
+	for {
+		rec, err := rdr.Read()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			t.Fatalf("error reading csv: %v", err)
+		}
+		bhav := mcxBhav{}
+		if err := bhav.ParseCSV(rec); err != nil {
+			t.Fatalf("error parsing csv record: %v", err)
+		}
+		log.Println(bhav)
 	}
-	log.Println(recs)
 }

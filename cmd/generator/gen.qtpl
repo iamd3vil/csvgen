@@ -1,0 +1,98 @@
+{% package main %}
+
+{% import "strings" %}
+
+{% code 
+type Context struct {
+    Pkg string
+    Structs []Struct
+    Uuid string
+}
+%}
+
+{% func toLower(str string) %}
+{% stripspace %}
+{%s= strings.ToLower(str) %}
+{% endstripspace %}
+{% endfunc %}
+
+{% func CsvTemplate(ctx Context) %}
+package {%s= ctx.Pkg %}
+
+import (
+    "fmt"
+    "strconv"
+)
+
+{% for _, str := range ctx.Structs %}
+func (s *{%s= str.StructName %}) ParseCSV(rec []string) error {
+    index := 0
+    {% for i, f := range str.Fields %}
+        {% switch f.Type %}
+        {% case "string" %}
+        s.{%s= f.Name %} = rec[index]
+        {% case "int32" %}
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int32(rec[index])
+        if err != nil {
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+        }
+        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        {% case "int64" %}
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int64(rec[index])
+        if err != nil {
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+        }
+        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        {% case "float32" %}
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float32(rec[index])
+        if err != nil {
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+        }
+        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        {% case "Float64" %}
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float64(rec[index])
+        if err != nil {
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+        }
+        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        {% endswitch %}
+
+        {% if i < len(str.Fields)-1 %}
+        index += 1
+        {% endif %}
+    {% endfor %}
+    return nil
+}
+
+{% endfor %}
+
+func parse{%s= ctx.Uuid %}Int32(s string) (int32, error) {
+	if s == "" {
+		return 0, nil
+	}
+	i, err := strconv.ParseInt(s, 0, 32)
+	return int32(i), err
+}
+
+func parse{%s= ctx.Uuid %}Int64(s string) (int64, error) {
+	if s == "" {
+		return 0, nil
+	}
+	return strconv.ParseInt(s, 0, 64)
+}
+
+func parse{%s= ctx.Uuid %}Float32(s string) (float32, error) {
+	if s == "" {
+		return 0, nil
+	}
+	i, err := strconv.ParseFloat(s, 32)
+	return float32(i), err
+}
+
+func parse{%s= ctx.Uuid %}Float64(s string) (float64, error) {
+	if s == "" {
+		return 0, nil
+	}
+	return strconv.ParseFloat(s, 64)
+}
+{% endfunc %}

@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/knadh/stuffbin"
+	"github.com/segmentio/ksuid"
 )
 
 type Struct struct {
@@ -18,13 +18,12 @@ type Field struct {
 	Type      string
 }
 
-func generateCode(dest io.Writer, fs stuffbin.FileSystem, pkg string, structs map[string][]structField) error {
-	tmplContext := make(map[string]interface{})
-	addInitialContext(tmplContext, pkg)
+func generateCode(dest io.Writer, pkg string, structs map[string][]structField) error {
+	tmplContext := getInitialCtx(pkg)
+	tmplContext.Structs = makeStructs(structs)
 
-	tmplContext["Structs"] = makeStructs(structs)
-
-	return saveResource("struct", []string{"/templates/gen.tmpl"}, dest, tmplContext, fs)
+	WriteCsvTemplate(dest, tmplContext)
+	return nil
 }
 
 func makeStructs(structs map[string][]structField) []Struct {
@@ -50,8 +49,9 @@ func makeStructs(structs map[string][]structField) []Struct {
 	return sts
 }
 
-func addInitialContext(tmplContext map[string]interface{}, pkg string) {
-	tmplContext["Pkg"] = pkg
-	tmplContext["BuildDate"] = buildDate
-	tmplContext["BuildVersion"] = buildVersion
+func getInitialCtx(pkg string) Context {
+	return Context{
+		Pkg:  pkg,
+		Uuid: ksuid.New().String(),
+	}
 }

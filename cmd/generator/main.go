@@ -15,21 +15,13 @@ var (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatalf("Filename can't be empty")
-	}
-	fName := os.Args[1]
-
 	pkg := flag.String("pkg", "main", "Package for the generated file")
+	fName := flag.String("file", "", "File with structs")
+	dest := flag.String("dest", "", "Destination file path to store generated code")
 	flag.Parse()
 
-	fs, err := initFileSystem()
-	if err != nil {
-		log.Fatalf("error while intialzing fs for templates")
-	}
-
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, fName, nil, parser.ParseComments)
+	f, err := parser.ParseFile(fset, *fName, nil, parser.ParseComments)
 	if err != nil {
 		log.Fatalf("error while parsing file: %v", err)
 	}
@@ -41,7 +33,7 @@ func main() {
 
 	code := bytes.NewBuffer([]byte{})
 
-	if err := generateCode(code, fs, *pkg, sts); err != nil {
+	if err := generateCode(code, *pkg, sts); err != nil {
 		log.Fatalf("error while generating code: %v", err)
 	}
 
@@ -50,7 +42,7 @@ func main() {
 		log.Fatalf("error while formatting code: %v", err)
 	}
 
-	genfile, err := os.Create("csvgen.go")
+	genfile, err := os.Create(*dest)
 	if err != nil {
 		log.Fatalf("error while opening the file for writing code")
 	}
