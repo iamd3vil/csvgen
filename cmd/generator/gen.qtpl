@@ -49,7 +49,7 @@ func (s *{%s= str.StructName %}) ParseCSV(rec []string) error {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
-        {% case "Float64" %}
+        {% case "float64" %}
         {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float64(rec[index])
         if err != nil {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)

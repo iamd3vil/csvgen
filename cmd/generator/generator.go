@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"strings"
 
 	"github.com/segmentio/ksuid"
 )
@@ -13,9 +12,8 @@ type Struct struct {
 }
 
 type Field struct {
-	Name      string
-	NameLower string
-	Type      string
+	Name string
+	Type string
 }
 
 func generateCode(dest io.Writer, pkg string, structs map[string][]structField) error {
@@ -36,9 +34,8 @@ func makeStructs(structs map[string][]structField) []Struct {
 
 		for _, fd := range fields {
 			f := Field{
-				Name:      fd.Name,
-				NameLower: strings.ToLower(fd.Name),
-				Type:      fd.Type,
+				Name: fd.Name,
+				Type: fd.Type,
 			}
 			st.Fields = append(st.Fields, f)
 		}

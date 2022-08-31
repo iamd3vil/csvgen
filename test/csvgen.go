@@ -5,101 +5,47 @@ import (
 	"strconv"
 )
 
-func (s *mcxBhav) ParseCSV(rec []string) error {
+func (s *testCsv) ParseCSV(rec []string) error {
 	index := 0
 
-	s.Date = rec[index]
+	s.TestStr = rec[index]
 
 	index += 1
 
-	sessionid, err := parse2E81XK93q8o8kdqPuPf48b13RftInt32(rec[index])
+	testint32, err := parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxInt32(rec[index])
 	if err != nil {
-		return fmt.Errorf("error while parsing Sessionid at index: %d", index)
+		return fmt.Errorf("error while parsing TestInt32 at index: %d", index)
 	}
-	s.Sessionid = sessionid
+	s.TestInt32 = testint32
 
 	index += 1
 
-	s.Markettype = rec[index]
-
-	index += 1
-
-	instrumentid, err := parse2E81XK93q8o8kdqPuPf48b13RftInt32(rec[index])
+	testint64, err := parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxInt64(rec[index])
 	if err != nil {
-		return fmt.Errorf("error while parsing Instrumentid at index: %d", index)
+		return fmt.Errorf("error while parsing TestInt64 at index: %d", index)
 	}
-	s.Instrumentid = instrumentid
+	s.TestInt64 = testint64
 
 	index += 1
 
-	s.Instrumentname = rec[index]
-
-	index += 1
-
-	s.Symbol = rec[index]
-
-	index += 1
-
-	s.Expirydate = rec[index]
-
-	index += 1
-
-	s.Reserved1 = rec[index]
-
-	index += 1
-
-	index += 1
-
-	s.Opttype = rec[index]
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	volume, err := parse2E81XK93q8o8kdqPuPf48b13RftInt64(rec[index])
+	testfloat32, err := parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxFloat32(rec[index])
 	if err != nil {
-		return fmt.Errorf("error while parsing Volume at index: %d", index)
+		return fmt.Errorf("error while parsing TestFloat32 at index: %d", index)
 	}
-	s.Volume = volume
+	s.TestFloat32 = testfloat32
 
 	index += 1
 
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	s.Unit = rec[index]
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	index += 1
-
-	s.Reserved2 = rec[index]
-
-	index += 1
-
-	s.Currencycode = rec[index]
+	testfloat64, err := parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxFloat64(rec[index])
+	if err != nil {
+		return fmt.Errorf("error while parsing TestFloat64 at index: %d", index)
+	}
+	s.TestFloat64 = testfloat64
 
 	return nil
 }
 
-func parse2E81XK93q8o8kdqPuPf48b13RftInt32(s string) (int32, error) {
+func parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxInt32(s string) (int32, error) {
 	if s == "" {
 		return 0, nil
 	}
@@ -107,14 +53,14 @@ func parse2E81XK93q8o8kdqPuPf48b13RftInt32(s string) (int32, error) {
 	return int32(i), err
 }
 
-func parse2E81XK93q8o8kdqPuPf48b13RftInt64(s string) (int64, error) {
+func parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxInt64(s string) (int64, error) {
 	if s == "" {
 		return 0, nil
 	}
 	return strconv.ParseInt(s, 0, 64)
 }
 
-func parse2E81XK93q8o8kdqPuPf48b13RftFloat32(s string) (float32, error) {
+func parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxFloat32(s string) (float32, error) {
 	if s == "" {
 		return 0, nil
 	}
@@ -122,7 +68,7 @@ func parse2E81XK93q8o8kdqPuPf48b13RftFloat32(s string) (float32, error) {
 	return float32(i), err
 }
 
-func parse2E81XK93q8o8kdqPuPf48b13RftFloat64(s string) (float64, error) {
+func parse2E8Bp5Vfel8J7JhvR6dTVcgc5UxFloat64(s string) (float64, error) {
 	if s == "" {
 		return 0, nil
 	}

@@ -201,7 +201,7 @@ func (s *`)
 				qw422016.N().S(`
         `)
 //line cmd/generator/gen.qtpl:52
-			case "Float64":
+			case "float64":
 //line cmd/generator/gen.qtpl:52
 				qw422016.N().S(`
         `)

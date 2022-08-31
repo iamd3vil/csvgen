@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"reflect"
 	"testing"
 )
 
@@ -23,10 +24,21 @@ func TestParseCsv(t *testing.T) {
 			}
 			t.Fatalf("error reading csv: %v", err)
 		}
-		bhav := mcxBhav{}
-		if err := bhav.ParseCSV(rec); err != nil {
+		str := testCsv{}
+		if err := str.ParseCSV(rec); err != nil {
 			t.Fatalf("error parsing csv record: %v", err)
 		}
-		log.Println(bhav)
+
+		expectedStr := testCsv{
+			TestStr:     "TestString",
+			TestInt32:   1,
+			TestInt64:   12345,
+			TestFloat32: 1.05,
+			TestFloat64: 123456789.2,
+		}
+
+		if !reflect.DeepEqual(str, expectedStr) {
+			t.Fatalf("expected: %#v, got: %#v", str, expectedStr)
+		}
 	}
 }
