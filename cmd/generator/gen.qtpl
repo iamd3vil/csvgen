@@ -26,39 +26,37 @@ import (
 
 {% for _, str := range ctx.Structs %}
 func (s *{%s= str.StructName %}) ParseCSV(rec []string) error {
-    index := 0
     {% for i, f := range str.Fields %}
         {% switch f.Type %}
         {% case "string" %}
-        s.{%s= f.Name %} = rec[index]
+        s.{%s= f.Name %} = rec[{%d= f.Position %}]
         {% case "int32" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int32(rec[index])
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int32(rec[{%d= f.Position %}])
         if err != nil {
-            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% case "int64" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int64(rec[index])
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int64(rec[{%d= f.Position %}])
         if err != nil {
-            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% case "float32" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float32(rec[index])
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float32(rec[{%d= f.Position %}])
         if err != nil {
-            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% case "float64" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float64(rec[index])
+        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float64(rec[{%d= f.Position %}])
         if err != nil {
-            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", index)
+            return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% endswitch %}
 
         {% if i < len(str.Fields)-1 %}
-        index += 1
         {% endif %}
     {% endfor %}
     return nil

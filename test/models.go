@@ -7,3 +7,9 @@ type testCsv struct {
 	TestFloat32 float32
 	TestFloat64 float64
 }
+
+type testCsvWithTags struct {
+	TestStr     string
+	TestInt64   int32 `csv:"2"`
+	TestFloat32 float32
+}
