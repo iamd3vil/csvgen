@@ -93,7 +93,7 @@ func (s *`)
 		qw422016.N().S(`) ParseCSV(rec []string) error {
     `)
 //line cmd/generator/gen.qtpl:29
-		for i, f := range str.Fields {
+		for _, f := range str.Fields {
 //line cmd/generator/gen.qtpl:29
 			qw422016.N().S(`
         `)
@@ -121,15 +121,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:34
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:34
-				qw422016.N().S(`, err := parse`)
-//line cmd/generator/gen.qtpl:34
-				qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:34
-				qw422016.N().S(`Int32(rec[`)
+				qw422016.N().S(`, err := strconv.ParseInt(rec[`)
 //line cmd/generator/gen.qtpl:34
 				qw422016.N().D(f.Position)
 //line cmd/generator/gen.qtpl:34
-				qw422016.N().S(`])
+				qw422016.N().S(`], 0, 32)
         if err != nil {
             return fmt.Errorf("error while parsing `)
 //line cmd/generator/gen.qtpl:36
@@ -145,11 +141,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:38
 				qw422016.N().S(f.Name)
 //line cmd/generator/gen.qtpl:38
-				qw422016.N().S(` = `)
+				qw422016.N().S(` = int32(`)
 //line cmd/generator/gen.qtpl:38
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:38
-				qw422016.N().S(`
+				qw422016.N().S(`)
         `)
 //line cmd/generator/gen.qtpl:39
 			case "int64":
@@ -159,15 +155,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:40
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:40
-				qw422016.N().S(`, err := parse`)
-//line cmd/generator/gen.qtpl:40
-				qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:40
-				qw422016.N().S(`Int64(rec[`)
+				qw422016.N().S(`, err := strconv.ParseInt(rec[`)
 //line cmd/generator/gen.qtpl:40
 				qw422016.N().D(f.Position)
 //line cmd/generator/gen.qtpl:40
-				qw422016.N().S(`])
+				qw422016.N().S(`], 0, 64)
         if err != nil {
             return fmt.Errorf("error while parsing `)
 //line cmd/generator/gen.qtpl:42
@@ -197,15 +189,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:46
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:46
-				qw422016.N().S(`, err := parse`)
-//line cmd/generator/gen.qtpl:46
-				qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:46
-				qw422016.N().S(`Float32(rec[`)
+				qw422016.N().S(`, err := strconv.ParseFloat(rec[`)
 //line cmd/generator/gen.qtpl:46
 				qw422016.N().D(f.Position)
 //line cmd/generator/gen.qtpl:46
-				qw422016.N().S(`])
+				qw422016.N().S(`], 32)
         if err != nil {
             return fmt.Errorf("error while parsing `)
 //line cmd/generator/gen.qtpl:48
@@ -221,11 +209,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:50
 				qw422016.N().S(f.Name)
 //line cmd/generator/gen.qtpl:50
-				qw422016.N().S(` = `)
+				qw422016.N().S(` = float32(`)
 //line cmd/generator/gen.qtpl:50
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:50
-				qw422016.N().S(`
+				qw422016.N().S(`)
         `)
 //line cmd/generator/gen.qtpl:51
 			case "float64":
@@ -235,15 +223,11 @@ func (s *`)
 //line cmd/generator/gen.qtpl:52
 				qw422016.N().S(strings.ToLower(f.Name))
 //line cmd/generator/gen.qtpl:52
-				qw422016.N().S(`, err := parse`)
-//line cmd/generator/gen.qtpl:52
-				qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:52
-				qw422016.N().S(`Float64(rec[`)
+				qw422016.N().S(`, err := strconv.ParseFloat(rec[`)
 //line cmd/generator/gen.qtpl:52
 				qw422016.N().D(f.Position)
 //line cmd/generator/gen.qtpl:52
-				qw422016.N().S(`])
+				qw422016.N().S(`], 64)
         if err != nil {
             return fmt.Errorf("error while parsing `)
 //line cmd/generator/gen.qtpl:54
@@ -269,102 +253,45 @@ func (s *`)
 			}
 //line cmd/generator/gen.qtpl:57
 			qw422016.N().S(`
-
-        `)
-//line cmd/generator/gen.qtpl:59
-			if i < len(str.Fields)-1 {
-//line cmd/generator/gen.qtpl:59
-				qw422016.N().S(`
-        `)
-//line cmd/generator/gen.qtpl:60
-			}
-//line cmd/generator/gen.qtpl:60
-			qw422016.N().S(`
     `)
-//line cmd/generator/gen.qtpl:61
+//line cmd/generator/gen.qtpl:58
 		}
-//line cmd/generator/gen.qtpl:61
+//line cmd/generator/gen.qtpl:58
 		qw422016.N().S(`
     return nil
 }
 
 `)
-//line cmd/generator/gen.qtpl:65
+//line cmd/generator/gen.qtpl:62
 	}
-//line cmd/generator/gen.qtpl:65
+//line cmd/generator/gen.qtpl:62
 	qw422016.N().S(`
-
-func parse`)
-//line cmd/generator/gen.qtpl:67
-	qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:67
-	qw422016.N().S(`Int32(s string) (int32, error) {
-	if s == "" {
-		return 0, nil
-	}
-	i, err := strconv.ParseInt(s, 0, 32)
-	return int32(i), err
-}
-
-func parse`)
-//line cmd/generator/gen.qtpl:75
-	qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:75
-	qw422016.N().S(`Int64(s string) (int64, error) {
-	if s == "" {
-		return 0, nil
-	}
-	return strconv.ParseInt(s, 0, 64)
-}
-
-func parse`)
-//line cmd/generator/gen.qtpl:82
-	qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:82
-	qw422016.N().S(`Float32(s string) (float32, error) {
-	if s == "" {
-		return 0, nil
-	}
-	i, err := strconv.ParseFloat(s, 32)
-	return float32(i), err
-}
-
-func parse`)
-//line cmd/generator/gen.qtpl:90
-	qw422016.N().S(ctx.Uuid)
-//line cmd/generator/gen.qtpl:90
-	qw422016.N().S(`Float64(s string) (float64, error) {
-	if s == "" {
-		return 0, nil
-	}
-	return strconv.ParseFloat(s, 64)
-}
 `)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 }
 
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 func WriteCsvTemplate(qq422016 qtio422016.Writer, ctx Context) {
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	StreamCsvTemplate(qw422016, ctx)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	qt422016.ReleaseWriter(qw422016)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 }
 
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 func CsvTemplate(ctx Context) string {
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	qb422016 := qt422016.AcquireByteBuffer()
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	WriteCsvTemplate(qb422016, ctx)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	qs422016 := string(qb422016.B)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	qt422016.ReleaseByteBuffer(qb422016)
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 	return qs422016
-//line cmd/generator/gen.qtpl:96
+//line cmd/generator/gen.qtpl:63
 }

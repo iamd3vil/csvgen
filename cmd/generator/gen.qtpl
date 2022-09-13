@@ -26,71 +26,38 @@ import (
 
 {% for _, str := range ctx.Structs %}
 func (s *{%s= str.StructName %}) ParseCSV(rec []string) error {
-    {% for i, f := range str.Fields %}
+    {% for _, f := range str.Fields %}
         {% switch f.Type %}
         {% case "string" %}
         s.{%s= f.Name %} = rec[{%d= f.Position %}]
         {% case "int32" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int32(rec[{%d= f.Position %}])
+        {%s= strings.ToLower(f.Name) %}, err := strconv.ParseInt(rec[{%d= f.Position %}], 0, 32)
         if err != nil {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
-        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        s.{%s= f.Name %} = int32({%s= strings.ToLower(f.Name) %})
         {% case "int64" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Int64(rec[{%d= f.Position %}])
+        {%s= strings.ToLower(f.Name) %}, err := strconv.ParseInt(rec[{%d= f.Position %}], 0, 64)
         if err != nil {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% case "float32" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float32(rec[{%d= f.Position %}])
+        {%s= strings.ToLower(f.Name) %}, err := strconv.ParseFloat(rec[{%d= f.Position %}], 32)
         if err != nil {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
-        s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
+        s.{%s= f.Name %} = float32({%s= strings.ToLower(f.Name) %})
         {% case "float64" %}
-        {%s= strings.ToLower(f.Name) %}, err := parse{%s= ctx.Uuid %}Float64(rec[{%d= f.Position %}])
+        {%s= strings.ToLower(f.Name) %}, err := strconv.ParseFloat(rec[{%d= f.Position %}], 64)
         if err != nil {
             return fmt.Errorf("error while parsing {%s= f.Name %} at index: %d", {%d= f.Position %})
         }
         s.{%s= f.Name %} = {%s= strings.ToLower(f.Name) %}
         {% endswitch %}
-
-        {% if i < len(str.Fields)-1 %}
-        {% endif %}
     {% endfor %}
     return nil
 }
 
 {% endfor %}
-
-func parse{%s= ctx.Uuid %}Int32(s string) (int32, error) {
-	if s == "" {
-		return 0, nil
-	}
-	i, err := strconv.ParseInt(s, 0, 32)
-	return int32(i), err
-}
-
-func parse{%s= ctx.Uuid %}Int64(s string) (int64, error) {
-	if s == "" {
-		return 0, nil
-	}
-	return strconv.ParseInt(s, 0, 64)
-}
-
-func parse{%s= ctx.Uuid %}Float32(s string) (float32, error) {
-	if s == "" {
-		return 0, nil
-	}
-	i, err := strconv.ParseFloat(s, 32)
-	return float32(i), err
-}
-
-func parse{%s= ctx.Uuid %}Float64(s string) (float64, error) {
-	if s == "" {
-		return 0, nil
-	}
-	return strconv.ParseFloat(s, 64)
-}
 {% endfunc %}

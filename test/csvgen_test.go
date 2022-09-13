@@ -38,7 +38,7 @@ func TestParseCsv(t *testing.T) {
 		}
 
 		if !reflect.DeepEqual(str, expectedStr) {
-			t.Fatalf("expected: %#v, got: %#v", str, expectedStr)
+			t.Fatalf("expected: %#v, got: %#v", expectedStr, str)
 		}
 	}
 }
